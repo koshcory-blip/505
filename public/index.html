@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="description" content="505 — social without the performance.">
+  <title>505</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <button class="logo" data-page="home" aria-label="505 home"><span>505</span></button>
+      <nav class="nav">
+        <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span>Home</span></button>
+        <button class="nav-item" data-page="explore"><span class="nav-icon">⌕</span><span>Explore</span></button>
+        <button class="nav-item" data-page="rooms"><span class="nav-icon">◌</span><span>Rooms</span></button>
+        <button class="nav-item" data-page="notifications"><span class="nav-icon">◇</span><span>Activity</span><i id="notifDot"></i></button>
+        <button class="nav-item" data-page="bookmarks"><span class="nav-icon">♧</span><span>Saved</span></button>
+        <button class="nav-item" data-page="profile"><span class="nav-icon">◎</span><span>Me</span></button>
+      </nav>
+      <button id="composeSidebar" class="compose-sidebar">+</button>
+      <div class="sidebar-profile" id="sidebarProfile"></div>
+    </aside>
+
+    <main class="main">
+      <header class="mobile-header">
+        <button class="logo mini" data-page="home"><span>505</span></button>
+        <strong>505</strong>
+        <button id="mobileCompose" class="mobile-compose">+</button>
+      </header>
+
+      <section id="homePage" class="page active">
+        <header class="page-header feed-header">
+          <div>
+            <h1>Home</h1>
+            <p id="helloLine">good to see you.</p>
+          </div>
+          <div class="feed-switch">
+            <button class="feed-mode active" data-feed="for-you">For you</button>
+            <button class="feed-mode" data-feed="latest">Latest</button>
+          </div>
+        </header>
+
+        <div class="stories-row" id="storiesRow"></div>
+
+        <section class="composer compact" id="composer">
+          <div class="avatar me-avatar">IR</div>
+          <div class="composer-body">
+            <textarea id="postText" maxlength="500" placeholder="what's on your mind?"></textarea>
+            <div id="mediaPreview" class="media-preview hidden"></div>
+            <div class="composer-bottom">
+              <div class="composer-tools">
+                <button id="addImageBtn" title="Add an image">▧</button>
+                <button id="roomPickerBtn" title="Choose a room">◌</button>
+                <span id="selectedRoom" class="selected-room"></span>
+              </div>
+              <div class="post-actions">
+                <span id="charCount">500</span>
+                <button id="postBtn" class="post-btn">Post</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div id="feed" class="feed"></div>
+      </section>
+
+      <section id="explorePage" class="page">
+        <header class="page-header"><div><h1>Explore</h1><p>find your side of the internet.</p></div></header>
+        <div class="search-wrap"><input id="searchInput" placeholder="Search people, posts, rooms..." autocomplete="off"></div>
+        <div id="searchResults"></div>
+        <section class="section-block">
+          <div class="section-title"><h2>What's moving</h2><span>right now</span></div>
+          <div class="trends">
+            <button class="trend"><small>Culture · trending</small><strong>niche internet</strong><span>18.4K posts</span></button>
+            <button class="trend"><small>Music · trending</small><strong>songs that changed you</strong><span>9.8K posts</span></button>
+            <button class="trend"><small>Life · trending</small><strong>quarter-life lore</strong><span>7.2K posts</span></button>
+            <button class="trend"><small>Creative · trending</small><strong>make bad art</strong><span>5.1K posts</span></button>
+          </div>
+        </section>
+      </section>
+
+      <section id="roomsPage" class="page">
+        <header class="page-header"><div><h1>Rooms</h1><p>public group chats with a pulse.</p></div></header>
+        <div id="roomsGrid" class="rooms-grid"></div>
+      </section>
+
+      <section id="notificationsPage" class="page">
+        <header class="page-header"><div><h1>Activity</h1><p>the stuff worth knowing.</p></div></header>
+        <div id="notificationsList" class="notifications-list"></div>
+      </section>
+
+      <section id="bookmarksPage" class="page">
+        <header class="page-header"><div><h1>Saved</h1><p>for when you actually want to find it again.</p></div></header>
+        <div id="bookmarksFeed" class="feed"></div>
+      </section>
+
+      <section id="profilePage" class="page">
+        <div id="profileHero"></div>
+        <div id="profileFeed" class="feed"></div>
+      </section>
+    </main>
+
+    <aside class="rightbar">
+      <div class="right-search"><span>⌕</span><input id="rightSearch" placeholder="Search 505"></div>
+      <section class="card">
+        <div class="card-title"><strong>Live rooms</strong><button data-page="rooms">See all</button></div>
+        <div id="liveRooms"></div>
+      </section>
+      <section class="card">
+        <div class="card-title"><strong>People you’d like</strong><span>not random celebs</span></div>
+        <div id="suggestedUsers"></div>
+      </section>
+      <p class="footer-copy">505 · built for people, not metrics.</p>
+    </aside>
+  </div>
+
+  <nav class="mobile-nav">
+    <button class="active" data-page="home">⌂</button>
+    <button data-page="explore">⌕</button>
+    <button data-page="rooms">◌</button>
+    <button data-page="notifications">◇</button>
+    <button data-page="profile">◎</button>
+  </nav>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
